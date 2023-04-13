@@ -28,11 +28,11 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->integer('position');
-            $table->integer('score');
-            $table->integer('matches_played');
-            $table->integer('matches_win');
-            $table->integer('matches_lost');
-            $table->integer('sets_win');
+            $table->integer('score')->default(0);
+            $table->integer('matches_played')->default(0);
+            $table->integer('matches_win')->default(0);
+            $table->integer('matches_lost')->default(0);
+            $table->integer('sets_win')->default(0);
             $table->timestamps();
         });
     }
