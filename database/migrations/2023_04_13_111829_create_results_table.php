@@ -27,9 +27,9 @@ return new class extends Migration
                 ->on('matches')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->integer('set_number');
-            $table->integer('score');
-            $table->boolean('winner');
+            $table->integer('set_number')->nullable(false);
+            $table->integer('score')->nullable(false);
+            $table->boolean('winner')->nullable(false);
             $table->timestamps();
         });
     }

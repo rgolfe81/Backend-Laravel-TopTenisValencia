@@ -21,14 +21,14 @@ return new class extends Migration
                 ->on('roles')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('name');
-            $table->string('surname');
+            $table->string('name')->nullable(false);
+            $table->string('surname')->nullable(false);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('city');
-            $table->integer('age');
-            $table->string('phone');
+            $table->string('city')->nullable(false);
+            $table->integer('age')->nullable(false);
+            $table->string('phone')->nullable(false);
             $table->rememberToken();
             $table->timestamps();
         });

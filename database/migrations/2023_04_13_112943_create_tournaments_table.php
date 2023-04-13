@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('matches', function (Blueprint $table) {
+        Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tournament_id');
-            $table->foreign('tournament_id')
-                ->references('id')
-                ->on('tournaments')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->date('date')->nullable(false);
-            $table->string('location')->nullable(false);
+            $table->string('name')->nullable(false);
+            $table->date('start_date')->nullable(false);
+            $table->date('end_date')->nullable(false);
+            $table->image('image');
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matches');
+        Schema::dropIfExists('tournaments');
     }
 };
