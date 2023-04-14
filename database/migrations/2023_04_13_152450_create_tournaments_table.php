@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable(false);
             $table->date('start_date')->nullable(false);
             $table->date('end_date')->nullable(false);
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

@@ -17,17 +17,17 @@ class RoleSeeder extends Seeder
     {
         DB::table('roles')->insert(
             [
-               [
-                   'name' => "user",
-                   'created_at' => "2023-04-14 11:00",
-                   'updated_at' => "2023-04-14 11:00"
-               ],
-               [
-                   'name' => "admin",
-                   'created_at' => "2023-04-14 11:00",
-                   'updated_at' => "2023-04-14 11:00"
-               ],
+                [
+                    'name' => "user",
+                    'created_at' => "2023-04-14 11:00",
+                    'updated_at' => "2023-04-14 11:00"
+                ],
+                [
+                    'name' => "admin",
+                    'created_at' => "2023-04-14 11:00",
+                    'updated_at' => "2023-04-14 11:00"
+                ],
             ]
-       );
+        );
     }
 }
