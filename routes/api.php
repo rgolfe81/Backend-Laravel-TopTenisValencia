@@ -32,4 +32,9 @@ Route::group([
         Route::get('/users/profile', [UserController::class, 'profile']);
         Route::put('/users/{id}', [UserController::class, 'updateUser']);
 });
+Route::group([
+    'middleware' => ['auth:sanctum', 'isAdmin']
+    ], function () {
 Route::get('/users', [UserController::class, 'getAllUsers']);
+});
+
