@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -108,6 +108,35 @@ class AuthController extends Controller
                 [
                     "success" => false,
                     "message" => "Login error"
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            $accessToken = $request->bearerToken();
+            // Get access token from database
+            $token = PersonalAccessToken::findToken($accessToken);
+            // Revoke token
+            $token->delete();
+
+            return response(
+                [
+                    "success" => true,
+                    "message" => "Logout successfully"
+                ],
+                Response::HTTP_OK
+            );
+        } catch (\Throwable $th) {
+            Log::error("Logout error: " . $th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Profile error"
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
