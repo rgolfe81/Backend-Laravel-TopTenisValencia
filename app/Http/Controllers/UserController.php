@@ -7,27 +7,40 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\TryCatch;
 
 class UserController extends Controller
 {
     public function profile()
     {
-        // Verificar si el usuario está autenticado
-        if (!auth()->check()) {
+        try{
+            // Verificar si el usuario está autenticado
+            if (!auth()->check()) {
+                return response([
+                    "success" => false,
+                    "message" => "User not authenticated"
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+        
+            // Obtener detalles del usuario
+            $user = auth()->user();
+        
             return response([
-                "success" => false,
-                "message" => "User not authenticated"
-            ], Response::HTTP_UNAUTHORIZED);
+                "success" => true,
+                "message" => "User profile retrieved successfully",
+                "data" => $user
+            ], Response::HTTP_OK);
+        
+        } catch (\Throwable $th) {
+            Log::error("Register error: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => $th->getMessage()
+                ],
+                500
+            );
         }
-    
-        // Obtener detalles del usuario
-        $user = auth()->user();
-    
-        return response([
-            "success" => true,
-            "message" => "User profile retrieved successfully",
-            "data" => $user
-        ], Response::HTTP_OK);
     }
     
     public function updateUser(Request $request, $id)
@@ -88,6 +101,7 @@ class UserController extends Controller
                 $user->phone = $request->input('phone');
             }
 
+            Log::info("User updated");
             $user->save();
 
             return response()->json(
@@ -100,6 +114,38 @@ class UserController extends Controller
             );
 
         } catch (\Throwable $th){
+            Log::error("Register error: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => $th->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
+    public function getAllUsers()
+    {
+        try {
+            $users = User::query()->get();
+            
+            if ($users->isEmpty()) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "No users found"
+                    ],
+                    500
+                );
+            }
+
+            return [
+                "success" => true,
+                "data" => $users
+            ];
+
+        } catch (\Throwable $th) {
             Log::error("Register error: " . $th->getMessage());
             return response()->json(
                 [
