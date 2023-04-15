@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 class isAdmin
@@ -31,12 +30,10 @@ class isAdmin
 
         } catch (\Throwable $th) {
             Log::error("isAdmin middleware error: " . $th->getMessage());
-
-            return response()->json(
-                [
-                    "success" => false,
-                    "message" => $th->getMessage()
-                ],500);
+            return response()->json([
+                'success' => false,
+                'message' => 'HTTP_INTERNAL_SERVER_ERROR'
+            ], 500);
         }
     }
 }

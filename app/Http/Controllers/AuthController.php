@@ -136,7 +136,7 @@ class AuthController extends Controller
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Profile error"
+                    "message" => "Logout error"
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
