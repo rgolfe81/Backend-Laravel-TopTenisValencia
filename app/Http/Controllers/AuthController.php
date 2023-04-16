@@ -38,7 +38,7 @@ class AuthController extends Controller
                 'age' => $request['age'],
                 'phone' => $request['phone'],
             ]);
-            Log::info("New User created");
+            Log::info("New user registered");
             $token = $user->createToken('apiToken')->plainTextToken;
 
             $res = [

@@ -41,4 +41,9 @@ Route::get('/users', [UserController::class, 'getAllUsers']);
 
 // Tournaments
 Route::get('/tournaments', [TournamentController::class, 'getAllTournaments']);
+Route::group([
+    'middleware' => ['auth:sanctum', 'isAdmin']
+    ], function () {
+Route::post('/tournaments', [TournamentController::class, 'createTournament']);
+});
 
