@@ -140,4 +140,41 @@ class TournamentController extends Controller
             );
         }
     }
+
+    public function deleteTournament($id)
+    {
+        try {
+
+            $tournament = Tournament::find($id);
+            if (!$tournament) {
+                return response()->json(
+                    [
+                        "success" => true,
+                        "message" => "Tournament doesn't exists",
+                    ],
+                    404
+                );
+            }
+
+            Tournament::destroy($id);
+            Log::info("Delete Tournament");
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Tournament deleted"
+                ],
+                200
+            );
+        } catch (\Throwable $th) {
+            Log::error("DELETING TOURNAMENT: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Error deleting tournament"
+                ],
+                500
+            );
+        }
+    }
 }
