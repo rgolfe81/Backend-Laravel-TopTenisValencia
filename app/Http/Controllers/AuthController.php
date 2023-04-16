@@ -16,13 +16,13 @@ class AuthController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string',
-                'surname' => 'required|string',
+                'name' => 'required|string|regex:/^[a-zA-ZñÑáÁéÉíÍóÓúÚüÜ\s]+$/',
+                'surname' => 'required|string|regex:/^[a-zA-ZñÑáÁéÉíÍóÓúÚüÜ]+(\s[a-zA-ZñÑáÁéÉíÍóÓúÚüÜ]+)?$/',
                 'email' => 'required|string|unique:users,email',
                 'password' => 'required|string|min:6|max:12',
-                'city' => 'required|string',
-                'age' => 'required|integer',
-                'phone' => 'required|string',
+                'city' => 'required|string|regex:/^[a-zA-ZñÑáÁéÉíÍóÓúÚüÜ]+(\s[a-zA-ZñÑáÁéÉíÍóÓúÚüÜ]+)*$/',
+                'age' => 'required|integer|regex:/^[1-9][0-9]?$/',
+                'phone' => 'required|string|regex:/^[0-9]{9}$/',
             ]);
 
             if ($validator->fails()) {

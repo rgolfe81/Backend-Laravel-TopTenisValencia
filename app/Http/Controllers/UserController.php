@@ -13,14 +13,6 @@ class UserController extends Controller
     public function profile()
     {
         try {
-            // Verificar si el usuario está autenticado
-            if (!auth()->check()) {
-                return response([
-                    "success" => false,
-                    "message" => "User not authenticated"
-                ], Response::HTTP_UNAUTHORIZED);
-            }
-
             // Obtener detalles del usuario
             $user = auth()->user();
 
@@ -30,7 +22,7 @@ class UserController extends Controller
                 "data" => $user
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
-            Log::error('Controller error: ' . $th->getMessage());
+            Log::error('User Controller error: ' . $th->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'HTTP_INTERNAL_SERVER_ERROR'
@@ -108,7 +100,7 @@ class UserController extends Controller
                 200
             );
         } catch (\Throwable $th) {
-            Log::error('Controller error: ' . $th->getMessage());
+            Log::error('User Controller error: ' . $th->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'HTTP_INTERNAL_SERVER_ERROR'
@@ -136,7 +128,7 @@ class UserController extends Controller
                 "data" => $users
             ];
         } catch (\Throwable $th) {
-            Log::error('Controller error: ' . $th->getMessage());
+            Log::error('User Controller error: ' . $th->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'HTTP_INTERNAL_SERVER_ERROR'
