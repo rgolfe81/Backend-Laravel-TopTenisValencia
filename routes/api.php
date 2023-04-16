@@ -47,5 +47,6 @@ Route::group([
 Route::post('/tournaments', [TournamentController::class, 'createTournament']);
 Route::put('/tournaments/{id}', [TournamentController::class, 'updateTournament']);
 Route::delete('/tournaments/{id}', [TournamentController::class, 'deleteTournament']);
+Route::post('/tournaments/{id}', [TournamentController::class, 'addUserToTournamentId']);
 });
 

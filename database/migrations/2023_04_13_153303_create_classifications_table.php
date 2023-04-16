@@ -27,7 +27,7 @@ return new class extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->integer('position');
+            $table->integer('position')->nullable();
             $table->integer('score')->default(0);
             $table->integer('matches_played')->default(0);
             $table->integer('matches_win')->default(0);
