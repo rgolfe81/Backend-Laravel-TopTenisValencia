@@ -229,4 +229,43 @@ class TournamentController extends Controller
             );
         }
     }
+    public function deleteUserToTournamentId(Request $request, $id)
+    {
+        try {
+            $userId = $request->input('user_id');
+            $tournament = Tournament::find($id); 
+
+            if (!$tournament) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Tournament 404 not found"
+                    ],
+                    404
+                );
+            }
+
+            $tournament->users()->detach($userId);
+            $tournament->users;
+            Log::info("Delete user to Tournament");
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $tournament
+                ],
+                200
+            );
+        } catch (\Throwable $th) {
+            Log::error('Error deleting user to tournament: ' . $th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => 'Error deleting user to tournament'
+                ],
+                500
+            );
+        }
+    }
 }

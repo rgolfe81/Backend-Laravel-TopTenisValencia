@@ -47,6 +47,7 @@ Route::group([
     Route::post('/tournaments', [TournamentController::class, 'createTournament']);
     Route::put('/tournaments/{id}', [TournamentController::class, 'updateTournament']);
     Route::delete('/tournaments/{id}', [TournamentController::class, 'deleteTournament']);
+    Route::delete('/tournaments/{id}', [TournamentController::class, 'deleteUserToTournamentId']);
     });
 Route::group([
     'middleware' => 'auth:sanctum'
