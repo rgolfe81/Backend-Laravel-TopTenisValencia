@@ -229,6 +229,7 @@ class TournamentController extends Controller
             );
         }
     }
+    
     public function deleteUserToTournamentId(Request $request, $id)
     {
         try {

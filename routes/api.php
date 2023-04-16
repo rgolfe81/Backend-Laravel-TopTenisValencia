@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TennisMatchController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -55,3 +56,10 @@ Route::group([
         Route::post('/tournaments/{id}', [TournamentController::class, 'addUserToTournamentId']);
         Route::get('/tournaments/{id}', [TournamentController::class, 'getUsersbyTournamentId']);
     });
+
+// TennisMatches
+Route::group([
+    'middleware' => ['auth:sanctum', 'isAdmin']
+    ], function () {
+    Route::post('/tennisMatches/{id}', [TennisMatchController::class, 'createMatchToTournamentId']);
+});

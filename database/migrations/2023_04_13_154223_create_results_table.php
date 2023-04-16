@@ -21,14 +21,14 @@ return new class extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('match_id');
-            $table->foreign('match_id')
+            $table->unsignedBigInteger('tennis_match_id');
+            $table->foreign('tennis_match_id')
                 ->references('id')
-                ->on('matches')
+                ->on('tennis_matches')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->integer('score')->nullable(false);
-            $table->boolean('winner');
+            $table->integer('score')->nullable();
+            $table->boolean('winner')->nullable();
             $table->timestamps();
         });
     }

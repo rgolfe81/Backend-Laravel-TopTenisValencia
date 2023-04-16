@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('matches', function (Blueprint $table) {
+        Schema::create('tennis_matches', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tournament_id');
             $table->foreign('tournament_id')
@@ -21,8 +21,8 @@ return new class extends Migration
                 ->on('tournaments')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->date('date')->nullable(false);
-            $table->string('location')->nullable(false);
+            $table->date('date')->nullable();
+            $table->string('location')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matches');
+        Schema::dropIfExists('tennis_matches');
     }
 };

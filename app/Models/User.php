@@ -50,8 +50,8 @@ class User extends Authenticatable
         return $this-> belongsTo(Role::class);
     }
 
-    public function matches(){
-        return $this->belongsToMany(TennisMatch::class, 'results');
+    public function tennisMatches(){
+        return $this->belongsToMany(TennisMatch::class, 'results', 'user_id', 'tennis_match_id');
     }
 
     public function tournaments(){
