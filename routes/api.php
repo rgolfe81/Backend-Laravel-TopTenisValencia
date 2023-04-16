@@ -45,5 +45,6 @@ Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
     ], function () {
 Route::post('/tournaments', [TournamentController::class, 'createTournament']);
+Route::put('/tournaments/{id}', [TournamentController::class, 'updateTournament']);
 });
 

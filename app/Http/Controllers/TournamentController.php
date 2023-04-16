@@ -58,6 +58,7 @@ class TournamentController extends Controller
             $tournament->name = $request->input('name');
             $tournament->start_date = $request->input('start_date');
             $tournament->end_date = $request->input('end_date');
+            $tournament->image = $request->input('image');
             $tournament->save();
 
             return response()->json(
@@ -80,4 +81,63 @@ class TournamentController extends Controller
         }
     }
 
+    public function updateTournament(Request $request, $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'regex:/^(?=.{1,40}$)[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/',
+                'start_date' => 'date',
+                'end_date' => 'date|after_or_equal:start_date',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+
+            $tournament = Tournament::find($id);
+
+            if (!$tournament) {
+                return response()->json(
+                    [
+                        "success" => true,
+                        "message" => "Tournament doesn't exists",
+                    ],
+                    404
+                );
+            }
+
+            $name = $request->input('name');
+            $start_date = $request->input('start_date');
+            $end_date = $request->input('end_date');
+
+            if (isset($name)) {
+                $tournament->name = $request->input('name');
+            }
+            if (isset($start_date)) {
+                $tournament->start_date = $request->input('start_date');
+            }
+            if (isset($end_date)) {
+                $tournament->end_date = $request->input('end_date');
+            }
+
+            $tournament->save();
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Tournament updated",
+                    "data" => $tournament
+                ],
+                200
+            );
+        } catch (\Throwable $th) {
+            Log::error("UPDATING TOURNAMENT: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Error updating tournament"
+                ],
+                500
+            );
+        }
+    }
 }
