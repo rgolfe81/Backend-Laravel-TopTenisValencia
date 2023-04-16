@@ -36,7 +36,7 @@ Route::group([
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
     ], function () {
-Route::get('/users', [UserController::class, 'getAllUsers']);
+    Route::get('/users', [UserController::class, 'getAllUsers']);
 });
 
 // Tournaments
@@ -44,9 +44,12 @@ Route::get('/tournaments', [TournamentController::class, 'getAllTournaments']);
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
     ], function () {
-Route::post('/tournaments', [TournamentController::class, 'createTournament']);
-Route::put('/tournaments/{id}', [TournamentController::class, 'updateTournament']);
-Route::delete('/tournaments/{id}', [TournamentController::class, 'deleteTournament']);
-Route::post('/tournaments/{id}', [TournamentController::class, 'addUserToTournamentId']);
-});
-
+    Route::post('/tournaments', [TournamentController::class, 'createTournament']);
+    Route::put('/tournaments/{id}', [TournamentController::class, 'updateTournament']);
+    Route::delete('/tournaments/{id}', [TournamentController::class, 'deleteTournament']);
+    });
+Route::group([
+    'middleware' => 'auth:sanctum'
+    ], function () {
+        Route::post('/tournaments/{id}', [TournamentController::class, 'addUserToTournamentId']);
+    });

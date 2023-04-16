@@ -182,7 +182,6 @@ class TournamentController extends Controller
     {
         try {
             $userId = $request->input('user_id');
-
             $tournament = Tournament::find($id); 
 
             if (!$tournament) {
@@ -192,6 +191,18 @@ class TournamentController extends Controller
                         "message" => "Tournament 404 not found"
                     ],
                     404
+                );
+            }
+
+            $usersNumber = $tournament->users()->count();
+            if($usersNumber >= 9){
+                Log::info("Tournament complete");
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Sorry, this tournament is complete"
+                    ],
+                    403
                 );
             }
 
