@@ -53,4 +53,5 @@ Route::group([
     'middleware' => 'auth:sanctum'
     ], function () {
         Route::post('/tournaments/{id}', [TournamentController::class, 'addUserToTournamentId']);
+        Route::get('/tournaments/{id}', [TournamentController::class, 'getUsersbyTournamentId']);
     });

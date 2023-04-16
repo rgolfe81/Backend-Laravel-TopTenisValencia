@@ -268,4 +268,33 @@ class TournamentController extends Controller
             );
         }
     }
+
+    public function getUsersbyTournamentId($id)
+    {
+        try {
+            $tournament = Tournament::find($id);
+            $tournament->users;
+
+            if (!$tournament) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Tournament not found"
+                    ],
+                    404
+                );
+            }
+
+            return [
+                "success" => true,
+                "data" => $tournament
+            ];
+        } catch (\Throwable $th) {
+            Log::error('Error getting players of tournament: ' . $th->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error getting players of tournament'
+            ], 500);
+        }
+    }
 }
