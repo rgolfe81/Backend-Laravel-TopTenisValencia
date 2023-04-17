@@ -27,7 +27,7 @@ class TennisMatchController extends Controller
 
             $tournamentUsers = $tournament->users()->pluck('users.id')->toArray();
 
-            // Verificar que todos los ids de usuario estén presentes en la lista de usuarios del torneo
+            // Verificar que los ids de usuario estén inscritos en el torneo seleccionado
             $missingIds = array_diff($userIds, $tournamentUsers);
             if ($missingIds) {
                 return response()->json(
@@ -61,6 +61,41 @@ class TennisMatchController extends Controller
                 [
                     "success" => false,
                     "message" => 'Error adding match to tournament'
+                ],
+                500
+            );
+        }
+    }
+
+    public function getMatchesbyTournamentId($id){
+        try {
+            $tournament = Tournament::find($id);
+            if (!$tournament) {
+                return response()->json(
+                    [
+                        "success" => true,
+                        "message" => "Tournament doesn't exists",
+                    ],
+                    404
+                );
+            }
+            $tennisMatches = TennisMatch::where('tournament_id', $tournament->id)->with('users')->get();
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $tennisMatches
+                ],
+                200
+            );
+
+        } catch (\Throwable $th) {
+            Log::error('Error getting matches of tournament: ' . $th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => 'Error getting matches of tournament'
                 ],
                 500
             );

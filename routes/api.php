@@ -62,4 +62,9 @@ Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
     ], function () {
     Route::post('/tennisMatches/{id}', [TennisMatchController::class, 'createMatchToTournamentId']);
-});
+    });
+Route::group([
+    'middleware' => 'auth:sanctum'
+    ], function () {
+        Route::get('/tennisMatches/{id}', [TennisMatchController::class, 'getMatchesbyTournamentId']);
+    });
