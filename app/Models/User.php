@@ -51,7 +51,7 @@ class User extends Authenticatable
     }
 
     public function tennisMatches(){
-        return $this->belongsToMany(TennisMatch::class, 'results', 'user_id', 'tennis_match_id');
+        return $this->belongsToMany(TennisMatch::class, 'results');
     }
 
     public function tournaments(){

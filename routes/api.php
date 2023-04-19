@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\TennisMatchController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\UserController;
@@ -67,4 +68,11 @@ Route::group([
     'middleware' => 'auth:sanctum'
     ], function () {
         Route::get('/tennisMatches/{id}', [TennisMatchController::class, 'getMatchesbyTournamentId']);
+    });
+
+// Results
+Route::group([
+    'middleware' => 'auth:sanctum'
+    ], function () {
+        Route::post('/results/{tournament_id}/{tennis_match_id}/{player1_id}/{player2_id}', [ResultController::class, 'createResultbyTennisMatchIdandTournamentId']);
     });
