@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Result;
 use App\Models\TennisMatch;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ResultController extends Controller
@@ -65,4 +63,35 @@ class ResultController extends Controller
             );
         }    
     }
+
+    public function getResultsByTournamentId($tournament_id){
+        try {
+            // Obtener los IDs de partidos de tenis del torneo
+            $tennisMatchIds = TennisMatch::where('tournament_id', $tournament_id)->pluck('id')->toArray();
+            
+            // Obtener los IDs de resultados a partir de los IDs de partidos de tenis
+            $resultIds = Result::whereIn('tennis_match_id', $tennisMatchIds)->pluck('id')->toArray();
+
+            // Obtener los resultados utilizando los IDs de resultados
+            $results = Result::whereIn('id', $resultIds)->get();
+    
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $results
+                ],
+                200
+            );
+        } catch (\Throwable $th) {
+            Log::error("GETTING RESULTS BY TOURNAMENT: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Error getting results by tournament"
+                ],
+                500
+            );
+        }
+    }
+    
 }

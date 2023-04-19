@@ -74,5 +74,6 @@ Route::group([
 Route::group([
     'middleware' => 'auth:sanctum'
     ], function () {
-        Route::put('/results/{Id}', [ResultController::class, 'addResultbyIdToTennisMatch']);
+Route::put('/results/{id}', [ResultController::class, 'addResultbyIdToTennisMatch']);
+Route::get('/results/{id}', [ResultController::class, 'getResultsByTournamentId']);
     });
