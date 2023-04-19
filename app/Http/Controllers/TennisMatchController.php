@@ -13,7 +13,10 @@ class TennisMatchController extends Controller
     public function createMatchToTournamentId(Request $request, $tournament_id)
     {
         try {
-            $tournament = Tournament::find($tournament_id); 
+            $tournament = Tournament::find($tournament_id);
+            $player1 = $request->input('player1_user_id');
+            $player2 = $request->input('player2_user_id');
+            $userId = Auth::id();
 
             if (!$tournament) {
                 return response()->json(
@@ -25,19 +28,18 @@ class TennisMatchController extends Controller
                 );
             }
 
-            // $tournamentUsers = $tournament->users()->pluck('users.id')->toArray();
-
-            // Verificar que los ids de usuario estén inscritos en el torneo seleccionado
-            // $missingIds = array_diff($userIds, $tournamentUsers);
-            // if ($missingIds) {
-            //     return response()->json(
-            //         [
-            //             "success" => false,
-            //             "message" => "User(s) not registered at selected tournament"
-            //         ],
-            //         403
-            //     );
-            // }
+            $isPlayer1Registered = $tournament->users->contains('id', $player1);
+            $isPlayer2Registered = $tournament->users->contains('id', $player2);
+    
+            if (!$isPlayer1Registered || !$isPlayer2Registered) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Some player are not registered at selected tournament"
+                    ],
+                    403
+                );
+            }
 
             $tennisMatch = new TennisMatch();
             $tennisMatch->tournament_id = $tournament_id;
@@ -45,12 +47,8 @@ class TennisMatchController extends Controller
             $tennisMatch->location = $request->input('location');
             $tennisMatch->save();
             
-            $player1 = $request->input('player1_user_id');
-            $player2 = $request->input('player2_user_id');
 
             $tennisMatchId = $tennisMatch->id;
-            $userId = Auth::id();
-
             $tennisMatch->users()->attach(
                 $player1, [
                     'player1_user_id' => $player1,
@@ -59,9 +57,6 @@ class TennisMatchController extends Controller
                     'tennis_match_id' => $tennisMatchId
                 ]
             );
-            
-
-            $tennisMatch->users;
 
             Log::info("Add Match to Tournament");
 
