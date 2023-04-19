@@ -92,7 +92,12 @@ class TennisMatchController extends Controller
                     404
                 );
             }
-            $tennisMatches = TennisMatch::where('tournament_id', $tournament->id)->with('users')->get();
+
+            $tennisMatches = TennisMatch::where('tournament_id', $tournament->id)
+            ->with(['users' => function($query) {
+                $query->select('player1_user_id', 'player2_user_id');
+            }])
+            ->get();
 
             return response()->json(
                 [
