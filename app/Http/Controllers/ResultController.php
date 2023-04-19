@@ -4,60 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Models\Result;
 use App\Models\TennisMatch;
-use App\Models\Tournament;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ResultController extends Controller
 {
-    public function addResultbyTennisMatchId(Request $request, $tennis_match_id){
+    public function addResultbyIdToTennisMatch(Request $request, $id){
         try {
-            // dd($request->input('set_number'));
-            $tennis_match = TennisMatch::find($tennis_match_id);
-            $user = Auth::user();
+            $result = Result::find($id);
 
-            if (!$tennis_match) {
+            if (!$result) {
                 return response()->json(
                     [
                         "success" => true,
-                        "message" => "Tennis match doesn't exists",
+                        "message" => "Tennis match result doesn't exists",
                     ],
                     404
                 );
             }
 
-            // if (!$tennis_match->users->contains($player1_id) || !$tennis_match->users->contains($player2_id)){
-            //     return response()->json(
-            //         [
-            //             "success" => true,
-            //             "message" => "Users selected not participate in this tennis match",
-            //         ],
-            //         403
-            //     );
-            // }
-                
-            $result = new Result();
-            $result->tennis_match_id = $tennis_match_id;
-            $result->user_id = $player1_id;
-            // $result->set_number = $request->input('set_number');
-            // $result->score = $request->input('score');
-            // $result->winner = $request->input('winner');
+            $player1 = $result->player1_user_id;
+            $player2 = $result->player2_user_id;
+            $winnerMatch = $request->input('winner_user_id');
+
+            if ($player1 != $winnerMatch && $player2 != $winnerMatch) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "The winner user does not belong to this tennis match",
+                    ],
+                    403
+                );
+            }
+
+            if (isset($winnerMatch)) {
+                $result->winner_user_id = $winnerMatch;
+            }
+
             $result->save();
-
-            $result2 = new Result();
-            $result2->tennis_match_id = $tennis_match_id;
-            $result2->user_id = $player2_id;
-            // $result2->set_number = $request->input('set_number');
-            // $result2->score = $request->input('score');
-            // $result2->winner = $request->input('winner');
-            $result2->save();
-
-            // $date = $request->input('date');
-            // $location = $request->input('location');
-            // $result->matches()->attach($date);
-            // $result->matches()->attach($location);
-
             Log::info("Add result to match");
 
             return response()->json(
