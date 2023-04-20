@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TennisMatch;
 use App\Models\Tournament;
+use App\Models\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -114,6 +115,71 @@ class TennisMatchController extends Controller
                 [
                     "success" => false,
                     "message" => 'Error getting matches of tournament'
+                ],
+                500
+            );
+        }
+    }
+
+    public function updateTennisMatchById(Request $request, $id){
+        try {
+            $tennisMatch = TennisMatch::find($id);
+            if (!$tennisMatch) {
+                return response()->json(
+                    [
+                        "success" => true,
+                        "message" => "Tennis match doesn't exists",
+                    ],
+                    404
+                );
+            }
+
+            // datos de la tabla tennis_match
+            $date = $request->input('date');
+            $location = $request->input('location');
+
+            if (isset($date)) {
+                $tennisMatch->date = $request->input('date'); 
+            }           
+            if (isset($location)) {
+                $tennisMatch->location = $request->input('location'); 
+            }
+            $tennisMatch->save();
+
+            // datos de la tabla results para poder modificar los jugadores del partido
+            $players = Result::find($id);
+            $player1 = $request->input('player1_user_id');
+            $player2 = $request->input('player2_user_id');
+            $winnerMatch = $request->input('winner_user_id');
+
+            if (isset($player1)) {
+                $players->player1_user_id = $player1; 
+            }
+            if (isset($player2)) {
+                $players->player2_user_id = $player2; 
+            }
+            if (isset($winnerMatch)) {
+                $players->winner_user_id = $winnerMatch;
+            }
+            $players->save();
+
+            Log::info("Tennis match updated successfully");
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $tennisMatch, $players
+                ],
+                200
+            );
+
+        } catch (\Throwable $th) {
+            Log::error('Error update tennis match: ' . $th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => 'Error update tennis match'
                 ],
                 500
             );

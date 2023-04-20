@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Result;
+use App\Models\TennisMatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
