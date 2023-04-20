@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Result;
-use App\Models\TennisMatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -66,15 +65,21 @@ class ResultController extends Controller
 
     public function getResultsByTournamentId($tournament_id){
         try {
-            // Obtener los IDs de partidos de tenis del torneo
-            $tennisMatchIds = TennisMatch::where('tournament_id', $tournament_id)->pluck('id')->toArray();
-            
-            // Obtener los IDs de resultados a partir de los IDs de partidos de tenis
-            $resultIds = Result::whereIn('tennis_match_id', $tennisMatchIds)->pluck('id')->toArray();
+            // Obtenemos ids de los partidos del torneo seleccionado
+            // $tennisMatchIds = TennisMatch::where('tournament_id', $tournament_id)->pluck('id')->toArray();
 
-            // Obtener los resultados utilizando los IDs de resultados
-            $results = Result::whereIn('id', $resultIds)->get();
-    
+            // Obtenemos los resultados utilizando los ids de los partidos
+            // $results = Result::whereIn('id', $tennisMatchIds)->get();
+
+            // Obtenemos mismo resultado que la consulta comentada anterior, pero con los nombres y apellidos de cada jugador y del ganador del partido, de los partidos que se han jugado.
+            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
+            ->join('users as player1', 'results.player1_user_id', '=', 'player1.id')
+            ->join('users as player2', 'results.player2_user_id', '=', 'player2.id')
+            ->join('users as winner', 'results.winner_user_id', '=', 'winner.id')
+            ->join('tennis_matches', 'results.tennis_match_id', '=', 'tennis_matches.id')
+            ->where('tennis_matches.tournament_id', $tournament_id)
+            ->get();
+            
             return response()->json(
                 [
                     "success" => true,
