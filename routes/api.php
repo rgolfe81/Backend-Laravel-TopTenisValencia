@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\TennisMatchController;
 use App\Http\Controllers\TournamentController;
@@ -79,3 +80,6 @@ Route::group([
 Route::put('/results/{id}', [ResultController::class, 'addResultbyIdToTennisMatch']);
 Route::get('/results/{id}', [ResultController::class, 'getResultsByTournamentId']);
     });
+
+// Classification
+Route::get('/classification/{id}', [ClassificationController::class, 'getClassificationByTournamentId']);
