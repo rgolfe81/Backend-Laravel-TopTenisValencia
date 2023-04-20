@@ -185,4 +185,44 @@ class TennisMatchController extends Controller
             );
         }
     }
+
+    public function deleteTennisMatchById($id){
+        try {
+            $tennisMatch = TennisMatch::find($id);
+            $result = Result::find($id);
+            if (!$tennisMatch || !$result) {
+                return response()->json(
+                    [
+                        "success" => true,
+                        "message" => "Tennis match doesn't exists",
+                    ],
+                    404
+                );
+            }
+
+            TennisMatch::destroy($id);
+            Result::destroy($id);
+
+            Log::info("Tennis match deleted");
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Tennis match deleted successfully"
+                ],
+                200
+            );
+
+        } catch (\Throwable $th) {
+            Log::error('Error delete tennis match: ' . $th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => 'Error delete tennis match'
+                ],
+                500
+            );
+        }
+    }
 }

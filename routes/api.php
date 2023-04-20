@@ -64,6 +64,7 @@ Route::group([
     ], function () {
     Route::post('/tennisMatches/{id}', [TennisMatchController::class, 'createMatchToTournamentId']);
     Route::put('/tennisMatches/{id}', [TennisMatchController::class, 'updateTennisMatchById']);
+    Route::delete('/tennisMatches/{id}', [TennisMatchController::class, 'deleteTennisMatchById']);
     });
 Route::group([
     'middleware' => 'auth:sanctum'
