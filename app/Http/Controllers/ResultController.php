@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classification;
 use App\Models\Result;
 use App\Models\TennisMatch;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ResultController extends Controller
 {
-    public function addResultbyIdToTennisMatch(Request $request, $id){
+    public function updateResultbyIdToTennisMatch(Request $request, $id){
         try {
             $result = Result::find($id);
 
@@ -42,22 +44,71 @@ class ResultController extends Controller
             }
 
             $result->save();
-            Log::info("Add result to match");
+            Log::info("Update result to match");
+
+            // Actualizar datos en clasificación
+
+            // Obtenemos el id del partido que es el mismo que el id de result
+            $tennisMatch = TennisMatch::find($id);
+            // Obtenemos el torneo del partido indicado
+            $tournament = $tennisMatch->tournament_id;
+
+            // Conseguimos el registro de la clasificación del torneo que coincide con el ganador del partido
+            $classificationWinner = Classification::where('tournament_id', $tournament)
+            ->where('user_id', $winnerMatch)
+            ->first();
+
+            // Incrementamos los valores de las puntuaciones del ganador del partido
+            $scoreWinner = $classificationWinner->score;
+            $matchesPlayedWinner = $classificationWinner->matches_played;
+            $matchesWinWinner = $classificationWinner->matches_win;
+
+            $classificationWinner->score = $scoreWinner + 2;
+            $classificationWinner->matches_played = $matchesPlayedWinner + 1;
+            $classificationWinner->matches_win = $matchesWinWinner +1;
+
+            // Obtenemos el perdedor del partido
+            if ($winnerMatch === $player1){
+                $loserMatch = $player2;
+            } else {
+                $loserMatch = $player1;
+            }
+
+            // Conseguimos el registro de la clasificación del torneo que coincide con el perdedor del partido
+            $classificationLoser = Classification::where('tournament_id', $tournament)
+            ->where('user_id', $loserMatch)
+            ->first();
+
+            // Incrementamos los valores de las puntuaciones del ganador del partido
+            $scoreLoser = $classificationLoser->score;
+            $matchesPlayedLoser = $classificationLoser->matches_played;
+            $matchesLostLoser = $classificationLoser->matches_lost;
+
+            $classificationLoser->score = $scoreLoser + 1;
+            $classificationLoser->matches_played = $matchesPlayedLoser + 1;
+            $classificationLoser->matches_lost = $matchesLostLoser +1;
+
+            $classificationWinner->save();
+            $classificationLoser->save();
+            Log::info("Updated players score on classification");
 
             return response()->json(
                 [
                     "success" => true,
-                    "data" => $result
+                    "data result" => $result, 
+                    "data winner classification" => $classificationWinner,
+                    "data loser classification" => $classificationLoser,
+                    "data tennisMatch" => $tennisMatch
                 ],
                 200
             );
 
         } catch (\Throwable $th) {
-            Log::error("CREATING RESULT: " . $th->getMessage());
+            Log::error("UPDATING RESULT: " . $th->getMessage());
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Error creating result"
+                    "message" => "Error updating result"
                 ],
                 500
             );
