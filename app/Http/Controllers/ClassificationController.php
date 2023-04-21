@@ -9,7 +9,9 @@ class ClassificationController extends Controller
 {
     public function getClassificationByTournamentId($tournament_id){
         try {
-            $classification = Classification::where('tournament_id', $tournament_id)->get();
+            $classification = Classification::where('tournament_id', $tournament_id)
+            ->orderBy('score', 'desc')
+            ->get();
 
             return response()->json(
                 [
