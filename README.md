@@ -297,9 +297,10 @@ Agradezco a mis formadores el tiempo dedicado a orientarme en este proyecto:
 
 ## Contacto
 
-<p>Rubén Golfe Silvestre</p><br>
+Rubén Golfe Silvestre
+
 <img src="./images_readme/imagen_perfil_gris.jpg" width="150">
-<br>
+
 <a href = "mailto:rgolfe81@gmail.com"><img src="https://img.shields.io/badge/Gmail-C6362C?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
 <a href="https://www.linkedin.com/in/ruben-golfe/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
 
