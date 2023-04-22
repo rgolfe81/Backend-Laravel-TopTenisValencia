@@ -1,5 +1,5 @@
 
-# Backend App Top Tenis Valencia <img src="./storage/app/public/images/tennis_ball_icon.png" width="50">
+# Backend App Top Tenis Valencia <img src="./images_readme/tennis_ball_icon.png" width="50">
 
 <details>
   <summary>Contenido 📝</summary>
@@ -59,23 +59,23 @@ Tecnologías utilizadas:
 
 ## Diagrama Base Datos
 <div align="center">
-    <img src="./storage/app/public/images/diagrama_workbench_mysql_2.jpg">
+    <img src="./images_readme/diagrama_workbench_mysql_2.jpg">
 </div>
 
 ## Documentos previos de estudio
 <div align="center">
-    <img src="./storage/app/public/images/Borrador%20endpoints%201.jpg" width="150">
-    <img src="./storage/app/public/images/Borrador%20endpoints%202.jpg" width="150">
-    <img src="./storage/app/public/images/Esbozo%20base%20datos%201.jpg" width="150">
-    <img src="./storage/app/public/images/Esbozo%20base%20datos%202.jpg" width="150">
-    <img src="./storage/app/public/images/Esbozo%20vistas%201.jpg" width="150">
-    <img src="./storage/app/public/images/Esbozo%20vistas%202.jpg" width="150">
-    <img src="./storage/app/public/images/diagrama_database.jpg" width="150">
+    <img src="./images_readme/Borrador%20endpoints%201.jpg" width="150">
+    <img src="./images_readme/Borrador%20endpoints%202.jpg" width="150">
+    <img src="./images_readme/Esbozo%20base%20datos%201.jpg" width="150">
+    <img src="./images_readme/Esbozo%20base%20datos%202.jpg" width="150">
+    <img src="./images_readme/Esbozo%20vistas%201.jpg" width="150">
+    <img src="./images_readme/Esbozo%20vistas%202.jpg" width="150">
+    <img src="./images_readme/diagrama_database.jpg" width="150">
 </div>
 
 ## Metodologias ágiles
 <div align="center">
-    <img src="./storage/app/public/images/Trello_TopTenisValencia.jpg">
+    <img src="./images_readme/Trello_TopTenisValencia.jpg">
 </div>
 
 ## Instalación en local
@@ -295,7 +295,7 @@ Agradezco a mis formadores el tiempo dedicado a orientarme en este proyecto:
 ## Contacto
 
 Rubén Golfe Silvestre
-<img src="./storage/app/public/images/imagen_perfil_gris.jpg" width="150">
+<img src="./images_readme/imagen_perfil_gris.jpg" width="150">
 <a href = "mailto:rgolfe81@gmail.com"><img src="https://img.shields.io/badge/Gmail-C6362C?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
 <a href="https://www.linkedin.com/in/ruben-golfe/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
 
