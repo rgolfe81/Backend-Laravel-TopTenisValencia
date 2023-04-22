@@ -8,7 +8,9 @@
     <li><a href="#sobre-el-proyecto">Sobre el proyecto</a></li>
     <li><a href="#stack">Stack</a></li>
     <li><a href="#diagrama-bd">Diagrama</a></li>
-    <li><a href="#documentos borrador para estudio del proyecto">Diagrama</a></li>
+    <li><a href="#docs-studio">Documentos previos de estudio</a></li>
+    <li><a href="#metodogias-agiles">Metodologias ágiles</a></li>
+    <li><a href="#docs-studio">Documentos previos de estudio</a></li>
     <li><a href="#instalación-en-local">Instalación</a></li>
     <li><a href="#endpoints">Endpoints</a></li>
     <li><a href="#futuras-funcionalidades">Futuras funcionalidades</a></li>
@@ -68,6 +70,7 @@ Tecnologías utilizadas:
     <img src="./images_readme/Borrador%20endpoints%202.jpg" width="150">
     <img src="./images_readme/Esbozo%20base%20datos%201.jpg" width="150">
     <img src="./images_readme/Esbozo%20base%20datos%202.jpg" width="150">
+    <br>
     <img src="./images_readme/Esbozo%20vistas%201.jpg" width="150">
     <img src="./images_readme/Esbozo%20vistas%202.jpg" width="150">
     <img src="./images_readme/diagrama_database.jpg" width="150">
@@ -294,8 +297,9 @@ Agradezco a mis formadores el tiempo dedicado a orientarme en este proyecto:
 
 ## Contacto
 
-Rubén Golfe Silvestre
+<p>Rubén Golfe Silvestre</p><br>
 <img src="./images_readme/imagen_perfil_gris.jpg" width="150">
+<br>
 <a href = "mailto:rgolfe81@gmail.com"><img src="https://img.shields.io/badge/Gmail-C6362C?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
 <a href="https://www.linkedin.com/in/ruben-golfe/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
 
