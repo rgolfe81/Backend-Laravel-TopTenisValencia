@@ -44,6 +44,7 @@ Route::group([
 
 // Tournaments
 Route::get('/tournaments', [TournamentController::class, 'getAllTournaments']);
+Route::get('/tournament/{id}', [TournamentController::class, 'getTournamentById']);
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
     ], function () {

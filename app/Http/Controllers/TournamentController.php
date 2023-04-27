@@ -40,6 +40,37 @@ class TournamentController extends Controller
         }
     }
 
+    public function getTournamentById($id)
+    {
+        try {
+            $tournament = Tournament::find($id);
+
+            if (!$tournament) {
+                return response()->json(
+                    [
+                        "success" => true,
+                        "message" => "Tournament doesn't exists",
+                    ],
+                    404
+                );
+            }
+
+            return [
+                "success" => true,
+                "data" => $tournament
+            ];
+        } catch (\Throwable $th) {
+            Log::error("GETTING TOURNAMENT: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Error getting tournament"
+                ],
+                500
+            );
+        }
+    }
+
     public function createTournament(Request $request)
     {
         try {
