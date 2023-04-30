@@ -7,6 +7,7 @@ use App\Models\Result;
 use App\Models\TennisMatch;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ResultController extends Controller
@@ -131,6 +132,74 @@ class ResultController extends Controller
             ->join('tennis_matches', 'results.tennis_match_id', '=', 'tennis_matches.id')
             ->where('tennis_matches.tournament_id', $tournament_id)
             ->get();
+            
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $results
+                ],
+                200
+            );
+        } catch (\Throwable $th) {
+            Log::error("GETTING RESULTS BY TOURNAMENT: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Error getting results by tournament"
+                ],
+                500
+            );
+        }
+    }
+
+    public function getResultsByTournamentIdForWinners($tournament_id){
+        try {
+            // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentId' con los partidos aún sin jugar, con del campo vacío 'winner_user', para poder añadir el ganador del partido
+
+            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
+            ->leftJoin('users as player1', 'results.player1_user_id', '=', 'player1.id')
+            ->leftJoin('users as player2', 'results.player2_user_id', '=', 'player2.id')
+            ->leftJoin('users as winner', 'results.winner_user_id', '=', 'winner.id')
+            ->leftJoin('tennis_matches', 'results.tennis_match_id', '=', 'tennis_matches.id')
+            ->where('tennis_matches.tournament_id', $tournament_id)
+            ->get();
+            
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $results
+                ],
+                200
+            );
+        } catch (\Throwable $th) {
+            Log::error("GETTING RESULTS BY TOURNAMENT: " . $th->getMessage());
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Error getting results by tournament"
+                ],
+                500
+            );
+        }
+    }
+
+    public function getResultsByTournamentIdForWinner($tournament_id){
+        try {
+            // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentIdForWinners' con los partidos el usuario logeado
+            $user_id = Auth::id();
+
+            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
+            ->leftJoin('users as player1', 'results.player1_user_id', '=', 'player1.id')
+            ->leftJoin('users as player2', 'results.player2_user_id', '=', 'player2.id')
+            ->leftJoin('users as winner', 'results.winner_user_id', '=', 'winner.id')
+            ->leftJoin('tennis_matches', 'results.tennis_match_id', '=', 'tennis_matches.id')
+            ->where('tennis_matches.tournament_id', $tournament_id)
+            ->where(function ($query) use ($user_id) {
+                $query->where('results.player1_user_id', $user_id)
+                      ->orWhere('results.player2_user_id', $user_id);
+            })
+            ->get();
+
             
             return response()->json(
                 [

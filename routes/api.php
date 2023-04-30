@@ -80,7 +80,13 @@ Route::group([
     ], function () {
 Route::put('/results/{id}', [ResultController::class, 'updateResultbyIdToTennisMatch']);
 Route::get('/results/{id}', [ResultController::class, 'getResultsByTournamentId']);
+Route::get('/resultsForWinner/{id}', [ResultController::class, 'getResultsByTournamentIdForWinner']);
     });
+Route::group([
+    'middleware' => ['auth:sanctum', 'isAdmin']
+    ], function () {
+Route::get('/resultsForWinners/{id}', [ResultController::class, 'getResultsByTournamentIdForWinners']);  
+});
 
 // Classification
 Route::get('/classification/{id}', [ClassificationController::class, 'getClassificationByTournamentId']);
