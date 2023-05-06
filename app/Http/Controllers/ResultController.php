@@ -28,6 +28,7 @@ class ResultController extends Controller
 
             $player1 = $result->player1_user_id;
             $player2 = $result->player2_user_id;
+            $scoreResult = $request->input('score_result');
             $winnerMatch = $request->input('winner_user_id');
 
             if ($player1 != $winnerMatch && $player2 != $winnerMatch) {
@@ -42,6 +43,9 @@ class ResultController extends Controller
 
             if (isset($winnerMatch)) {
                 $result->winner_user_id = $winnerMatch;
+            }
+            if (isset($scoreResult)) {
+                $result->score_result = $request->input('score_result');
             }
 
             $result->save();
@@ -96,10 +100,10 @@ class ResultController extends Controller
             return response()->json(
                 [
                     "success" => true,
-                    "data result" => $result, 
-                    "data winner classification" => $classificationWinner,
-                    "data loser classification" => $classificationLoser,
-                    "data tennisMatch" => $tennisMatch
+                    "data_result" => $result, 
+                    "data_winner_classification" => $classificationWinner,
+                    "data_loser_classification" => $classificationLoser,
+                    "data_tennisMatch" => $tennisMatch
                 ],
                 200
             );
@@ -125,13 +129,14 @@ class ResultController extends Controller
             // $results = Result::whereIn('id', $tennisMatchIds)->get();
 
             // Obtenemos mismo resultado que la consulta comentada anterior, pero con los nombres y apellidos de cada jugador y del ganador del partido, de los partidos que se han jugado.
-            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
+            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname', 'results.score_result')
             ->join('users as player1', 'results.player1_user_id', '=', 'player1.id')
             ->join('users as player2', 'results.player2_user_id', '=', 'player2.id')
             ->join('users as winner', 'results.winner_user_id', '=', 'winner.id')
             ->join('tennis_matches', 'results.tennis_match_id', '=', 'tennis_matches.id')
             ->where('tennis_matches.tournament_id', $tournament_id)
             ->get();
+
             
             return response()->json(
                 [
@@ -156,7 +161,7 @@ class ResultController extends Controller
         try {
             // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentId' con los partidos aún sin jugar, con del campo vacío 'winner_user', para poder listar con los partidos por disputar
 
-            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
+            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname', 'results.score_result')
             ->leftJoin('users as player1', 'results.player1_user_id', '=', 'player1.id')
             ->leftJoin('users as player2', 'results.player2_user_id', '=', 'player2.id')
             ->leftJoin('users as winner', 'results.winner_user_id', '=', 'winner.id')
@@ -188,7 +193,7 @@ class ResultController extends Controller
             // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentIdForWinners' con los partidos el usuario logeado aún sin jugar
             $user_id = Auth::id();
 
-            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
+            $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname', 'results.score_result')
             ->leftJoin('users as player1', 'results.player1_user_id', '=', 'player1.id')
             ->leftJoin('users as player2', 'results.player2_user_id', '=', 'player2.id')
             ->leftJoin('users as winner', 'results.winner_user_id', '=', 'winner.id')

@@ -209,11 +209,11 @@ class TournamentController extends Controller
         }
     }
 
-    public function addUserToTournamentId(Request $request, $id)
+    public function addUserToTournamentId(Request $request, $tournamentId)
     {
         try {
             $userId = $request->input('user_id');
-            $tournament = Tournament::find($id); 
+            $tournament = Tournament::find($tournamentId); 
 
             if (!$tournament) {
                 return response()->json(
@@ -225,7 +225,7 @@ class TournamentController extends Controller
                 );
             }
 
-            if ($tournament->users()->where('id', $userId)->exists()) {
+            if ($tournament->users()->where('users.id', $userId)->exists()) {
                 return response()->json(
                     [
                         "success" => false,
