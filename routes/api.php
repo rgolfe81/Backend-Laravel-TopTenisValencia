@@ -46,12 +46,13 @@ Route::group([
 
 // Tournaments
 Route::get('/tournaments', [TournamentController::class, 'getAllTournaments']);
+Route::get('/tournament/{id}', [TournamentController::class, 'getTournamentById']);
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
     ], function () {
     Route::post('/tournaments', [TournamentController::class, 'createTournament']);
     Route::put('/tournaments/{id}', [TournamentController::class, 'updateTournament']);
-    Route::delete('/tournaments/{id}', [TournamentController::class, 'deleteTournament']);
+    Route::delete('/tournament/{id}', [TournamentController::class, 'deleteTournament']);
     Route::delete('/tournaments/{id}', [TournamentController::class, 'deleteUserToTournamentId']);
     });
 Route::group([
@@ -59,7 +60,7 @@ Route::group([
     ], function () {
         Route::post('/tournaments/{id}', [TournamentController::class, 'addUserToTournamentId']);
         Route::get('/tournaments/{id}', [TournamentController::class, 'getUsersbyTournamentId']);
-        Route::get('/tournament/{id}', [TournamentController::class, 'getTournamentById']);
+
     });
 
 // TennisMatches
