@@ -35,6 +35,7 @@ Route::group([
     ], function () {
         Route::get('/users/profile', [UserController::class, 'profile']);
         Route::put('/users/{id}', [UserController::class, 'updateUser']);
+        Route::get('/users/tournament/{id}', [TournamentController::class, 'getUsersbyTournamentId']);
 });
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
@@ -42,9 +43,9 @@ Route::group([
     Route::get('/users', [UserController::class, 'getAllUsers']);
 });
 
+
 // Tournaments
 Route::get('/tournaments', [TournamentController::class, 'getAllTournaments']);
-Route::get('/tournament/{id}', [TournamentController::class, 'getTournamentById']);
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
     ], function () {
@@ -58,6 +59,7 @@ Route::group([
     ], function () {
         Route::post('/tournaments/{id}', [TournamentController::class, 'addUserToTournamentId']);
         Route::get('/tournaments/{id}', [TournamentController::class, 'getUsersbyTournamentId']);
+        Route::get('/tournament/{id}', [TournamentController::class, 'getTournamentById']);
     });
 
 // TennisMatches
@@ -81,12 +83,12 @@ Route::group([
 Route::put('/results/{id}', [ResultController::class, 'updateResultbyIdToTennisMatch']);
 Route::get('/results/{id}', [ResultController::class, 'getResultsByTournamentId']);
 Route::get('/resultsForWinner/{id}', [ResultController::class, 'getResultsByTournamentIdForWinner']);
+Route::get('/resultsForMatches/{id}', [ResultController::class, 'getResultsByTournamentIdForMatches']);
     });
-Route::group([
-    'middleware' => ['auth:sanctum', 'isAdmin']
-    ], function () {
-Route::get('/resultsForWinners/{id}', [ResultController::class, 'getResultsByTournamentIdForWinners']);  
-});
 
 // Classification
+Route::group([
+    'middleware' => 'auth:sanctum'
+    ], function () {
 Route::get('/classification/{id}', [ClassificationController::class, 'getClassificationByTournamentId']);
+    });

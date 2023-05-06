@@ -80,7 +80,7 @@ class ResultController extends Controller
             ->where('user_id', $loserMatch)
             ->first();
 
-            // Incrementamos los valores de las puntuaciones del ganador del partido
+            // Incrementamos los valores de las puntuaciones del perdedor del partido
             $scoreLoser = $classificationLoser->score;
             $matchesPlayedLoser = $classificationLoser->matches_played;
             $matchesLostLoser = $classificationLoser->matches_lost;
@@ -152,9 +152,9 @@ class ResultController extends Controller
         }
     }
 
-    public function getResultsByTournamentIdForWinners($tournament_id){
+    public function getResultsByTournamentIdForMatches($tournament_id){
         try {
-            // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentId' con los partidos aún sin jugar, con del campo vacío 'winner_user', para poder añadir el ganador del partido
+            // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentId' con los partidos aún sin jugar, con del campo vacío 'winner_user', para poder listar con los partidos por disputar
 
             $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
             ->leftJoin('users as player1', 'results.player1_user_id', '=', 'player1.id')
@@ -185,7 +185,7 @@ class ResultController extends Controller
 
     public function getResultsByTournamentIdForWinner($tournament_id){
         try {
-            // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentIdForWinners' con los partidos el usuario logeado
+            // Obtenemos mismo resultado que el controlador anterior 'getResultsByTournamentIdForWinners' con los partidos el usuario logeado aún sin jugar
             $user_id = Auth::id();
 
             $results = Result::select('results.*', 'player1.name as player1_name', 'player1.surname as player1_surname', 'player2.name as player2_name', 'player2.surname as player2_surname', 'winner.name as winner_name', 'winner.surname as winner_surname')
