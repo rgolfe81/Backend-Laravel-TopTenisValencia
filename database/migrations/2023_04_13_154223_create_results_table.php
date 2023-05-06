@@ -45,6 +45,7 @@ return new class extends Migration
                 ->on('tennis_matches')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->string('score_result')->nullable();
             $table->timestamps();
         });
     }

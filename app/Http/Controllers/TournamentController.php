@@ -225,6 +225,16 @@ class TournamentController extends Controller
                 );
             }
 
+            if ($tournament->users()->where('id', $userId)->exists()) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "User is already registered in this tournament"
+                    ],
+                    403
+                );
+            }
+
             $usersNumber = $tournament->users()->count();
             if($usersNumber >= 9){
                 Log::info("Tournament complete");
