@@ -53,9 +53,7 @@ Tecnologías utilizadas:
     <a href="https://www.github.com/">
     <img src= "https://img.shields.io/badge/github-24292F?style=for-the-badge&logo=github&logoColor=white"/>
 </a>
-    <a href="https://www.docker.com/">
-    <img src= "https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
-</a>
+
  </div>
 
 
