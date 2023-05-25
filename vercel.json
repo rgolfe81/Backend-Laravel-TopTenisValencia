@@ -7,11 +7,11 @@
     "routes": [{
         "src": "/(.*)",
         "headers": {
-            "Access-Control-Allow-Origin": "https://frontend-react-top-tenis-valencia.vercel.app/api",
+            "Access-Control-Allow-Origin": "https://frontend-react-top-tenis-valencia.vercel.app",
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Authorization"
         },
-        "dest": "/api/index.php"
+        "dest": "/api/api/index.php"
     }],
     "env": {
         "APP_ENV": "production",
