@@ -1,35 +1,12 @@
-
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "/api/index.php",
-      "use": {
-        "name": "vercel-php@0.3.1",
-        "version": "0.3.3"
+    "routes": [
+      {
+        "src": "/api/.*",
+        "headers": {
+          "Access-Control-Allow-Origin": "https://frontend-react-top-tenis-valencia.vercel.app",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        }
       }
-    },
-    { "src": "/public/**", "use": "@vercel/static" }
-  ],
-  "routes": [
-    {
-      "src": "/(css|js|images)/(.*)",
-      "dest": "public/$1/$2"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
-    }
-  ],
-  "env": {
-    "APP_CONFIG_CACHE": "/tmp/config.php",
-    "APP_EVENTS_CACHE": "/tmp/events.php",
-    "APP_PACKAGES_CACHE": "/tmp/packages.php",
-    "APP_ROUTES_CACHE": "/tmp/routes.php",
-    "APP_SERVICES_CACHE": "/tmp/services.php",
-    "VIEW_COMPILED_PATH": "/tmp",
-    "CACHE_DRIVER": "array",
-    "LOG_CHANNEL": "stderr",
-    "SESSION_DRIVER": "cookie"
+    ]
   }
-}
